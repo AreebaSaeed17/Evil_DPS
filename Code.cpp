@@ -2,7 +2,6 @@
 #include<string>
 #include<cstdlib>
 #include<ctime>
-#include<algorithm>
 //for a dynamic array to store inventory items as it is modifiable. 
 //Items can be both added and removed 
 #include<vector>
@@ -36,16 +35,18 @@ void Update_Stats(User&player, int health_change, int energy_change){
         //being at 0 energy damages health so everytime this function gets called it will dec health additionally
         player.health-=3;
     }
-    //Once the player loses all energy, his health will 
+    //fixing ranges for health as well
+    if (player.health > 100) {
+            player.health = 100;
+        } else if (player.health < 0) {
+            player.health = 0;
+        }
+
     //For any neg health just consider it to be 0 to simplify things
     //At 0 health, game ends cause the player dies.
-    if(player.health <0){
-        player.health=0;
+    if(player.health==0){
         player.isAlive = false;
     }
-
-    
-
 }
 //Scenario = Earthquake
 string EarthQuake(User&player){
