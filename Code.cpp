@@ -5,6 +5,7 @@
 //for a dynamic array to store inventory items as it is modifiable. 
 //Items can be both added and removed 
 #include<vector>
+
 using namespace std;
 
 //Struct for the user details
@@ -53,21 +54,216 @@ string EarthQuake(User&player){
     cout << "\n========================================" << endl;
     cout << "       CIRCUMSTANCE : MAGNITUDE 7.0          " << endl;
     cout << "========================================" << endl;
+
+    //Question #1 
     cout << "You are on the 4th floor. The room starts shaking violently." << endl;
     cout << "Bookshelf crashes down." << endl;
-    cout<<"You can hear the walls cracking and the ceiling fan creaking.\n"<<endl;
+    cout << "You can hear the walls cracking and the ceiling fan creaking.\n"<<endl;
     cout << "What is your immediate action?" << endl;
     cout << "1. Run for the elevator." << endl;
     cout << "2. Drop, Cover, and Hold on to wait under a table till the shocks settle down." << endl;
     cout << "3. Run to the balcony." << endl;
 
     int choice;
+    cout<<"Enter your choice (1-3): \n";
     cin>>choice;
+    
+    switch(choice){
+        case 1:
+        cout<<"You run to the elevator.....";
+        cout<<"ERROR:: Power failed. You are stuck inside\n";
+        cout<<"It's extremely dark in the elevator\n";
+        //He is stuck so he suffers a major energy loss
+        Update_Stats(player, -5, -40 );
+        break;
 
-    if(choice ==1){
-        
+        case 2:
+        cout<<"You scan the room to find a place you can take shelter in....\n";
+        cout<<"You spot a wooden table nearby.\n";
+        cout<<"You run towards it.\n";
+        cout<<"You take cover and wait for the shocks to settle.\n";
+        //Only energy less for finding and running, no effect on health
+        Update_Stats(player, 0, -20);
+        break;
+
+        case 3:
+        cout<<"You run towards the balcony.....\n";
+        cout<<"You are unable to walk properly to the spot.\n";
+        cout<<"The shaking ground and building overpowers you!\n";
+        cout<<"You fall to the ground!!\n";
+        cout<<"Your head hurts and your vision getes blurred.\n";
+        //Major injury and loss to health
+        Update_Stats(player, -70, -65);
+        break;
+
+        default:
+        cout << "You hesitate and do nothing...\n";
+        //Panic affects both physical and mental health and drains energy while wasting time
+        Update_Stats(player, -5, -5); 
+        break;
+    }
+
+    //Question #2 
+    cout << "\nThe shaking slows down... but the building isn't still yet.\n";
+    cout << "Dust is in the air and small pieces of plaster are falling.\n";
+    cout << "You fear an aftershock might hit at any moment.\n\n";
+    cout << "What do you do now?\n";
+    cout << "1. Stay under the table and wait for 1 more minute.\n";
+    cout << "2. Move towards the emergency stairs carefully.\n";
+    cout << "3. Call out for help to see if anyone else is nearby.\n";
+
+    cout << "Enter your choice (1-3): \n";
+    cin >> choice;
+
+    switch (choice) {
+    case 1:
+        cout << "You stay under the cover protecting your head from any injury or bruise...\n";
+        cout << "You remain safe as debris falls around you.\n";
+        cout<<"You made a safe and good choice.\n";
+        //Safe healthwise but can tire up a little
+        Update_Stats(player, 0, -10); 
+        break;
+
+    case 2:
+        cout << "You plan to reach for the emergency exit....\n";
+        cout<<"You are moving very carefully; holding the railing and walls for support.\n";
+        cout << "You stumble a bit due to some debris lying around, but you keep moving.\n";
+        cout<<"You hurt your knee a little but the injury isn't worth worrying about.\n";
+        //energy used
+        Update_Stats(player, -5, -20); 
+        break;
+
+    case 3:
+        cout << "You shout for help....\n";
+        cout<<"You can hear a faint noise coming from the corridor./n";
+        cout<<"You try to locate were they are.\n";
+        Update_Stats(player, 0, -5); 
+        break;
+
+    default:
+        cout << "You hesitate and do nothing...\n";
+        Update_Stats(player, -5, -5); 
+        break;
+    }
+
+    //Question 3
+    cout << "\nYou finally reach the staircase. The main path is blocked by fallen debris.\n";
+    cout << "There is a narrow gap you might squeeze through, or you could try finding another route.\n";
+    cout << "What is your call?\n";
+    cout << "1. Try to clear some debris to make space to move.\n";
+    cout << "2. Look for an alternate staircase or fire escape.\n";
+    cout << "3. Crawl through the narrow gap carefully.\n";
+
+    cout << "Enter your choice (1-3): \n";
+    cin >> choice;
+
+switch (choice) {
+    case 1:
+        cout << "You push through the piles of concrete and wood....\n";
+        cout << "Your hands get scraped and your breathing gets heavy.\n";
+        cout<<"It is tiring.\n";
+        Update_Stats(player, -10, -27); 
+        break;
+
+    case 2:
+        cout << "You scan the corrdior for another escape....\n";
+        cout << "You find a marked fire door slightly to your left.\n";
+        cout <<"You are hopeful.\n";
+        Update_Stats(player, -3, -15); 
+        break;
+
+    case 3:
+        cout << "You flatten yourself and try to slide through the gap.\n";
+        cout << "A jagged edge cuts your arm as you squeeze past!\n";
+        Update_Stats(player, -15, -10); // more health loss, less energy
+        break;
+
+    default:
+        cout<<"YOu do nothing.\n";
+        cout << "You stand still overwhelmed by the situation...\n";
+        Update_Stats(player, -5, -5);
+        break;
     }
     
+// Question #4 
+    cout << "\nYou smell smoke. A thin haze fills the corridor near the ceiling....\n";
+    cout << "You hear cracking sounds from a room down the hall.\n";
+    cout << "How do you proceed?\n";
+    cout << "1. Cover your mouth with cloth and crawl low to the exit.\n";
+    cout << "2. Use nearby water and try setting off small flames near the door (if any).\n";
+    cout << "3. Run past the smoke quickly to save time.\n";
+
+    cout << "Enter your choice (1-3): \n";
+    cin >> choice;
+
+    switch (choice) {
+    case 1:
+        cout << "You get down on your hands and knees...\n";
+        cout <<"You are trying to keep yourself below the rising smoke.\n";
+        cout << "Your eyes sting, but you keep moving to reach the exit.\n";
+        Update_Stats(player, -8, -15); 
+        break;
+
+    case 2:
+        cout << "You see some fire flames rising from the bottom of a door in the corridor.\n";
+         cout<<"Your eyes hurt due to rising smoke.\n";
+        cout <<"You find an emergency water hydrant at the edge of the corridor.\n";
+        cout << "The flames subside, making the corridor safer to pass.\n";
+        Update_Stats(player, -5, -15); 
+        break;
+
+    case 3:
+        cout << "You sprint through the smoke!\n";
+        cout << "You cough violently and feel dizzy.\n";
+        //risky choice
+        Update_Stats(player, -25, -15); 
+        break;
+
+       default:
+        cout << "You hesitate, breathing more smoke as time passes.\n";
+        Update_Stats(player, -15, -5);
+        break;
+
+    }
+    //Question #5
+    cout << "\nYou spot someone on the floor holding their leg, calling for help.\n";
+    cout << "They are conscious but in pain.\n\n";
+    cout << "What do you do?\n";
+    cout << "1. Help them stand and guide them to a safer area.\n";
+    cout << "2. Provide quick first aid and move on.\n";
+    cout << "3. Promise to call rescuers and continue towards the exit.\n";
+
+    cout << "Enter your choice (1-3): \n";
+    cin >> choice;
+
+    switch (choice) {
+    case 1:
+        cout <<"You move closer to the injured person.\n";
+        cout << "You support their weight and move slowly.\n";
+        cout << "It takes time and drains your strength.\n";
+        Update_Stats(player, -3, -22); 
+        break;
+
+    case 2:
+        cout <<"You move closer to the injured person.\n";
+        cout << "You apply pressure and stabilize the injury as best as you can.\n";
+        cout << "They thank you and you both feel a bit safer.\n";
+        cout <<"You keep moving to find an exit and help.\n";
+        Update_Stats(player, -3, -12); 
+        break;
+
+    case 3:
+        cout <<"You move closer to the injured person.\n";
+        cout << "You reassure them and prioritize reaching an exit.\n";
+        cout << "You conserve your energy and keep moving forward but feel guilty.\n";
+        Update_Stats(player, 0, -5); // minimal cost
+        break;
+
+    default:
+        cout << "You freeze; unable to decide what to choose and lose precious seconds.\n";
+        Update_Stats(player, -5, -5);
+        break;
+    }
 }
    
 int main(){
@@ -108,5 +304,4 @@ switch(random_number){
 
 
 }
-
 
