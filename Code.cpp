@@ -205,20 +205,21 @@ void UseInventoryItem(User& player) {
     } else if (item == "Water Bottle") {
         cout << "You drink water and feel more alert.\n";
         Update_Stats(player, 0, +15);
-        RemoveItem(player, item);
+   
     } else if (item == "Gaming Laptop") {
         cout << "You lug the gaming laptop around... it's not very helpful.\n";
         Update_Stats(player, -2, -8);
-        cout << "You drop unnecessary weight.\n";
         RemoveItem(player, item);
+
     } else if (item == "Flashlight") {
         cout << "You switch on the flashlight. The path is clearer.\n";
         Update_Stats(player, 0, +8);
-        RemoveItem(player, item);
+   
     } else if (item == "Battery-Powered Radio") {
         cout << "You tune into emergency broadcasts. The guidance calms you.\n";
         Update_Stats(player, 0, +6);
         RemoveItem(player, item);
+        
     } else if (item == "Power Bank") {
         cout << "You top up your phone briefly and feel reassured.\n";
         Update_Stats(player, 0, +6);
@@ -752,7 +753,7 @@ string Power_Outage(User& player){
         case 4:
         UseInventoryItem(player);
         break;
-        
+
         default:
             cout << "You freeze, losing precious minutes...\n";
             Update_Stats(player, -5, -5);
