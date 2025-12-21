@@ -334,8 +334,9 @@ switch (choice) {
 
 //Scenario: Power Outage
 string Power_Outage(User& player){
-        cout << "\n========================================" << endl;
-        cout << "         CIRCUMSTANCE : CITY-WIDE BLACKOUT         " << endl;
+    cout<<endl;
+        cout << "========================================" << endl;
+        cout << "     CIRCUMSTANCE : CITY-WIDE BLACKOUT         " << endl;
         cout << "========================================" << endl;
 
     // Some context
