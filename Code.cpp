@@ -431,6 +431,10 @@ string Power_Outage(User& player){
         cout<<"You made a good choice!\n";
         Update_Stats(player, 0, -5);
         break;
+
+        default:
+        cout << "You do nothing and hope power returns...\n";
+        Update_Stats(player, -5, -5);
     }  
 
     //Question #3
@@ -453,9 +457,112 @@ string Power_Outage(User& player){
         Update_Stats(player,0,-10);
         break;
 
+        case 2:
+        cout << "You open the fridge often and grab snacks...\n";
+        cout << "Cold escapes quickly; food warms faster.\n";
+        cout<<"You realize that your choice wasn't that well-thought upon.\n";
+        Update_Stats(player,-17,-5);
+        break;
+
+        case 3: 
+        cout << "You cook some perishables using the gas stove...\n";
+        cout << "You ventilate, but there’s minor exposure to fumes.\n";
+        cout << "You secure some meals but feel a bit lightheaded.\n";
+        cout <<"You won some, lost some. Overall not that bad of a choice.\n";
+        Update_Stats(player, -9,-16);
+        break;
+
+        default:
+        cout << "You do nothing and hope power returns...\n";
+        Update_Stats(player, -5, -5);
+    }
+
+    //Question 4
+
+    cout << "\nNight deepens. You need light and a way to charge your phone.\n";
+    cout << "What is your approach?\n";
+    cout << "1. Use battery lanterns/flashlight and ration batteries.\n";
+    cout << "2. Light multiple candles around the apartment for brightness.\n";
+    cout << "3. Sit in your idling car inside the garage to charge devices.\n";
+
+    cout << "Enter your choice (1-3): \n";
+    cin >> choice;
+
+    switch (choice) {
+        case 1: 
+            cout << "You rely on safe battery lights and plan usage...\n";
+            cout << "Visibility is decent and fire risk is minimal.\n";
+            Update_Stats(player, 0, -10);
+            break;
+        
+        case 2: 
+            cout << "You light several candles for illumination...\n";
+            cout << "A small flame tips near papers—close call!\n";
+            cout << "You quickly clear the area but remain wary of fire hazards.\n";
+            Update_Stats(player, -8, -12);
+            break;
+        
+        case 3: 
+            cout << "You sit in your idling car in the closed garage to charge...\n";
+            cout << "Bad idea—carbon monoxide risk rises fast!\n";
+            cout << "You feel dizzy and rush back out; that was dangerous.\n";
+            Update_Stats(player, -25, -15);
+            break;
+        
+        default:
+            cout << "You delay, straining your eyes in the dark and wasting time.\n";
+            Update_Stats(player, -5, -5);
+            break;
+    }
+
+    //Question 5
+
+    cout << "\nYou encounter a neighbor whose medical device (CPAP/oxygen concentrator) needs power.\n";
+    cout << "They are conscious but anxious and mildly short of breath.\n";
+    cout << "What do you do?\n";
+    cout << "1. Help them relocate to a nearby clinic/shelter with backup power.\n";
+    cout << "2. Offer your power bank for phone calls and stay with them briefly.\n";
+    cout << "3. Promise to inform responders and continue managing your own situation.\n";
+
+    cout << "Enter your choice (1-3): \n";
+    cin >> choice;
+
+    switch (choice) {
+        case 1: {
+            cout << "You support the neighbor and move carefully to a safer location...\n";
+            cout << "It takes effort, but their condition stabilizes.\n";
+            cout<<"You lost energy and feel drained.\n";
+            Update_Stats(player, -5, -22);
+            break;
+        }
+        case 2: {
+            cout << "You share your power bank and help them make necessary calls...\n";
+            cout << "You reassure them and note the nearest facility.\n";
+            cout<<"You power bank is a bit drained now but you feel happy to help.\n";
+            Update_Stats(player, -2, -12);
+            break;
+        }
+        case 3: {
+            cout << "You promise to notify responders and proceed to secure your area...\n";
+            cout << "You conserve energy but feel uneasy about leaving.\n";
+            cout<<"You know that you can be of help to someone else only if you stay alive and safe yourself.\n";
+            Update_Stats(player, 0, -6);
+            break;
+        }
+        default:
+            cout << "You freeze, losing precious minutes...\n";
+            Update_Stats(player, -5, -5);
+            break;
+    }
+
+    return "PowerOutage Completed";
+
+
+
+
+
 
         
-    }
 
 
 
