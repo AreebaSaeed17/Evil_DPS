@@ -30,10 +30,10 @@ This is a single player console-based disaster survival simulation developed in 
 ## Game Mechanics:
 Health represents the physical condition of the player, while energy represents stamina. The inventory can store up to five items which may be used during gameplay.
 ## The Disaster Scenarios:
-•	Earthquake – Focuses on shelter, evacuation, and aftershock safety.
-•	Fire – Emphasizes smoke management, evacuation routes, and fire safety.
-•	Flood – Involves movement in water, rescue decisions, and survival priorities.
-•	Power Outage – Requires patience, resource management, and safe decision-making.
+•	Earthquake – Focuses on shelter, evacuation, and aftershock safety.               
+•	Fire – Emphasizes smoke management, evacuation routes, and fire safety.                  
+•	Flood – Involves movement in water, rescue decisions, and survival priorities.                      
+•	Power Outage – Requires patience, resource management, and safe decision-making.          
 ## Ending & Scoring:
 At the end of each game, a final score is calculated based on remaining health and energy and a performance rating is displayed, and the game outcome is saved to a history file. The user can access his progress through this file afterwards.
 
