@@ -2,6 +2,11 @@
 #include<string>
 #include<cstdlib>
 #include<ctime>
+#include <future>
+#include<chrono>
+#include<thread>
+#include <iomanip>
+#include <windows.h>
 //using vector for a dynamic array to store inventory items as it is modifiable. 
 //Items can be both added and removed 
 #include<vector>
@@ -25,6 +30,35 @@ struct Item {
 };
 
                                 //Function Definitions
+void delay(int seconds) {
+    std::this_thread::sleep_for(std::chrono::seconds(seconds));
+}
+
+int GetTimedInput(int seconds) {
+    int choice = -1;
+    bool inputReceived = false;
+
+    // Launch input in separate thread
+    auto inputFuture = std::async(std::launch::async, [&]() {
+        std::cin >> choice;
+        inputReceived = true;
+        });
+
+    // Countdown while waiting for input
+    for (int i = seconds; i > 0; --i) {
+        if (inputReceived) {
+            std::cout << "\n";
+            return choice;
+        }
+
+        std::cout << "\rTime remaining: " << std::setw(2) << std::setfill('0') << i << "s " << std::flush;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+
+    // Time's up
+    std::cout << "\nTIME'S UP! You hesitated!\n";
+    return -1;  // Goes to default case
+}
 
 //Function for items that the user can carry
 void Inventory(User& player, string item){
