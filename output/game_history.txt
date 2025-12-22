@@ -1,0 +1,14 @@
+====================
+Name: Areeba
+Disaster: EarthQuake
+Survived: YES
+Final Health: 65
+Final Energy: 75
+====================
+====================
+Name: Areeba
+Disaster: Power Outage
+Survived: YES
+Final Health: 65
+Final Energy: 71
+====================

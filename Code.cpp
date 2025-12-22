@@ -11,7 +11,9 @@
 //Items can be both added and removed 
 #include<vector>
 #include<algorithm>//for find fucntion
-#include <fstream>
+#include<fstream>
+#include<conio.h>
+#include<limits>
 
 using namespace std;
 
@@ -35,32 +37,87 @@ void delay(int seconds) {
     std::this_thread::sleep_for(std::chrono::seconds(seconds));
 }
 
+
+
 int GetTimedInput(int seconds) {
-    int choice = -1;
-    bool inputReceived = false;
+    std::string buf; // collect typed digits
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
 
-    // Launch input in separate thread
-    auto inputFuture = std::async(std::launch::async, [&]() {
-        std::cin >> choice;
-        inputReceived = true;
-        });
-
-    // Countdown while waiting for input
-    for (int i = seconds; i > 0; --i) {
-        if (inputReceived) {
-            std::cout << "\n";
-            return choice;
-        }
-
-        std::cout << "\rTime remaining: " << std::setw(2) << std::setfill('0') << i << "s " << std::flush;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+    // Clean any leftover characters (e.g., a newline from previous cin >>)
+    if (std::cin.rdbuf()->in_avail() > 0) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-    // Time's up
-    std::cout << "\nTIME'S UP! You hesitated!\n";
-    return -1;  // Goes to default case
-}
+    // Draw once at start
+    int lastShown = -1;
+    bool userStartedTyping = false;
 
+    while (true) {
+        // Show countdown only if user hasn't started typing
+        if (!userStartedTyping) {
+            auto now = std::chrono::steady_clock::now();
+            int remaining = (int)std::chrono::duration_cast<std::chrono::seconds>(deadline - now).count();
+            if (remaining < 0) remaining = 0;
+
+            if (remaining != lastShown) {
+                std::cout << "\rTime remaining: " << std::setw(2) << std::setfill('0')
+                          << remaining << "s " << std::flush;
+                lastShown = remaining;
+            }
+        }
+
+        // Key pressed?
+        if (_kbhit()) {
+            int ch = _getch();
+            userStartedTyping = true; // stop overwriting countdown once typing begins
+
+            // Enter ends input
+            if (ch == '\r' || ch == '\n') {
+                std::cout << "\n";
+                if (buf.empty()) return -1;
+                try {
+                    return std::stoi(buf);
+                } catch (...) {
+                    return -1;
+                }
+            }
+
+            // Backspace
+            if (ch == 8) {
+                if (!buf.empty()) {
+                    buf.pop_back();
+                    // erase last char visually
+                    std::cout << "\b \b" << std::flush;
+                }
+                continue;
+            }
+
+            // Only accept digits
+            if (ch >= '0' && ch <= '9') {
+                if (buf.size() < 3) {         // basic guard
+                    buf.push_back((char)ch);
+                    std::cout << (char)ch << std::flush;
+                }
+            }
+            // Ignore other keys
+        }
+
+        // Timed out?
+        if (std::chrono::steady_clock::now() >= deadline) {
+            std::cout << "\nTIME'S UP! You hesitated!\n";
+            // Clean any pending stdin
+            if (std::cin.rdbuf()->in_avail() > 0) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+            return -1;
+        }
+
+        // Sleep small, but redraw is gated to once per second via lastShown
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+}
 //Function for items that the user can carry
 void Inventory(User& player, string item){
     if (player.inventory.size()<5){
@@ -792,7 +849,7 @@ string Power_Outage(User& player){
         case 3: 
             setColor(4);
             cout << "You sit in your idling car in the closed garage to charge...\n";
-            cout << "Bad idea—carbon monoxide risk rises fast!\n";
+            cout << "BAD IDEA!! Carbon monoxide risk rises fast!\n";
             cout << "You feel dizzy and rush back out; that was dangerous.\n";
             Update_Stats(player, -25, -15);
             break;
@@ -1500,28 +1557,20 @@ void Scoring_System_For_Ending_Display(User&player){
 // Function to check password
 bool CheckPassword(const string& name) {
     ifstream inFile("password.txt");
-    
     if (!inFile) {
-        // File doesn't exist, create it with this password
         ofstream outFile("password.txt");
         outFile << name << endl;
         outFile.close();
         cout << "New password created!\n";
         return true;
     }
-    
     string stored_password;
     inFile >> stored_password;
     inFile.close();
-    
-    if (name == stored_password) {
-        return true;
-    } else {
-        return false;
-    }
+    return (name == stored_password);
 }
 
-// Function to save game results
+//Regarding game saving i.e including the data handling
 void SaveGameResult(const User& player, const string& disaster) {
     ofstream file("game_history.txt", ios::app);
     file << "====================\n";
@@ -1534,35 +1583,95 @@ void SaveGameResult(const User& player, const string& disaster) {
     file.close();
 }
 
+
+
+void AppendUserNoteAndShowFile() {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear leftover newline
+
+    string input;
+    cout << "Enter the note you want to store in a file: ";
+    getline(cin, input);
+
+    ofstream myfile;
+    myfile.open("Player Progress.txt", ios::app);
+    myfile << input << "\n";
+    myfile.close();
+
+    ifstream myfile2;
+    myfile2.open("Player Progress.txt");
+    string line;
+    cout << "\n=== YOUR PROGRESS RECORD ===\n";
+    while(getline(myfile2, line)){
+        cout << line << endl;
+    }
+    cout << "=======================================\n";
+    myfile2.close();
+}
+
+
+//We want to allow user to be able to play multiple times
+string PlayOneRound(User& player, string& disasterOut) {
+    // Reset round state
+    player.health = 100;
+    player.energy = 100;
+    player.isAlive = true;
+    player.inventory.clear();
+    player.inventory.push_back("Empty");
+
+    srand(static_cast<unsigned>(time(NULL)));
+    int random_number = rand() % 4 + 1;
+
+    string outcome = "Scenario completed.";
+    switch (random_number) {
+        case 1:
+            disasterOut = "EarthQuake";
+            outcome = EarthQuake(player);
+            break;
+        case 2:
+            disasterOut = "Flood";
+            outcome = Flood(player);
+            break;
+        case 3:
+            disasterOut = "Building on Fire";
+            outcome = Fire(player);
+            break;
+        case 4:
+            disasterOut = "Power Outage";
+            outcome = Power_Outage(player);
+            break;
+    }
+
+    cout << outcome << endl;
+    if (player.isAlive) {
+        cout << "Congratulations!! You survived!!\n";
+    } else {
+        cout << "\n--- GAME OVER ---\n";
+        cout << "You failed to survive the disaster.\n";
+    }
+    Scoring_System_For_Ending_Display(player);
+
+    SaveGameResult(player, disasterOut);
+    cout << "Game saved to history!\n";
+
+    // Your simple file I/O integration after each round:
+    AppendUserNoteAndShowFile();
+
+    return outcome;
+}
+
 int main() {
-    string name, stored_name;
-    string disaster, outcome;
+    string name,disaster, outcome;
 
     cout << "Enter your name: ";
+    cout<<"Your name will act as a password for your progress file.\n";
     cin >> name;
 
-
-    ifstream inFile("progress.txt");
-
-    if (!inFile) {
-        ofstream outFile("progress.txt");
-        outFile << name << endl;   // first line = password
-        outFile.close();
-
-        cout << "Password set successfully.\n";
-    } 
-    else {
-    
-    inFile >> stored_name;
-    inFile.close();
-
-    if (name != stored_name) {
+    if (!CheckPassword(name)) {
         cout << "Wrong password! Access denied.\n";
         return 0;
     }
-}
+    cout << "Access granted. Welcome " << name << "!\n";
 
-cout << "Access granted. Welcome " << name << "!\n";
    
     User player;
     player.name = name;
@@ -1571,47 +1680,21 @@ cout << "Access granted. Welcome " << name << "!\n";
     player.isAlive = true;
     player.inventory = {"Empty"};
 
-    // ===== RANDOM DISASTER =====
-    srand(time(NULL));
-    int random_number = rand() % 4 + 1;
+    bool playAgain = true;
+    while (playAgain) {
+        User player;
+        player.name = name;
 
-    outcome = "Scenario completed.";
+        string disaster;
+        PlayOneRound(player, disaster);
 
-    switch (random_number) {
-        case 1:
-            disaster = "EarthQuake";
-            outcome = EarthQuake(player);
-            break;
-
-        case 2:
-            disaster = "Flood";
-            break;
-
-        case 3:
-            disaster = "Building on Fire";
-            break;
-
-        case 4:
-            disaster = "Power Outage";
-            outcome = Power_Outage(player);
-            break;
+        cout << "\nDo you want to play again? (y/n): ";
+        char ans;
+        cin >> ans;
+        playAgain = (ans == 'y' || ans == 'Y');
     }
 
-    // ===== GAME END DISPLAY =====
-    cout << outcome << endl;
-
-    if (player.isAlive) {
-        cout << "Congratulations!! You survived!!\n";
-        Scoring_System_For_Ending_Display(player);
-    } else {
-        cout << "\n--- GAME OVER ---\n";
-        cout << "You failed to survive the disaster.\n";
-        Scoring_System_For_Ending_Display(player);
-    }
-
-    SaveGameResult(player, disaster);
-    cout << "Game saved to history!\n";
-
+    cout << "Thanks for playing!\n";
     return 0;
 }
 
