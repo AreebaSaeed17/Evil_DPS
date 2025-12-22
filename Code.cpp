@@ -126,6 +126,7 @@ void Inventory(User& player, string item){
         cout<<item<<" was added to your inventory.\n";
     }
     else{
+        
         cout<<"Item wasn't added. You can carry maximum 5 items at a time!\n";
     }
 }
@@ -182,9 +183,13 @@ void Update_Stats(User& player, int health_change, int energy_change){
     }
 }
 void Player_Condition(int&health, int&energy){
+     setColor(1);
     cout<<"Current Energy And Health Level is: \n";
+     setColor(6);
     cout<<"Health xp: "<<health<<" % "<<" || "<<"Energy xp: "<<energy<<" % "<<endl;
+     setColor(7);
 }
+
 
 
 //Fucntion to remove item from inventory to be able to use it
@@ -203,6 +208,7 @@ bool RemoveItem(User& player, const string& item) {
 
 //function to print out an inventory for user
 void ShowInventory(const User& player) {
+     setColor(5);
 cout << "Your inventory: ";
 //this is a variable counter about how many actual items there are
 //Bcs right now I have initialized the inventory as "EMPTY"
@@ -220,6 +226,7 @@ cout << "Your inventory: ";
         cout << "(empty)";
     }
     cout << "\n";
+     setColor(7);
 }
 
 
@@ -244,6 +251,7 @@ void OfferPickup(User& player, const vector<string>& itemsNearPlayer, const stri
 
     // Validate input: 0 means "skip", out-of-range means "invalid".
     if (chosenIndex <= 0 || chosenIndex > static_cast<int>(itemsNearPlayer.size())) {
+         setColor(6);
         cout << "You decide not to pick up anything.\n";
         return;
     }
@@ -265,12 +273,15 @@ void UseInventoryItem(User& player) {
     }
 
     if (usable.empty()) {
+         setColor(4);
         cout << "You have nothing useful to use right now.\n";
         return;
+         setColor(7);
     }
 
     cout << "\n=== Use an Item ===\n";
     ShowInventory(player);
+     setColor(5);
     cout << "Choose an item to use:\n";
     for (size_t i = 0; i < usable.size(); ++i) {
         cout << (i + 1) << ". " << usable[i] << "\n";
@@ -280,10 +291,12 @@ void UseInventoryItem(User& player) {
     int pick;
     cin >> pick;
     if (pick == 0) {
+         setColor(6);
         cout << "You decided not to use anything.\n";
         return;
     }
     if (pick < 1 || pick > static_cast<int>(usable.size())) {
+         setColor(14);
         cout << "Invalid choice.\n";
         return;
     }
@@ -291,34 +304,48 @@ void UseInventoryItem(User& player) {
     const string& item = usable[pick - 1];
 
     if (item == "First Aid Kit") {
+         setColor(2);
         cout << "You open the First Aid Kit and treat minor wounds.\n";
+         setColor(7);
         Update_Stats(player, +15, -5);
         RemoveItem(player, item);
     } else if (item == "Water Bottle") {
+         setColor(2);
         cout << "You drink water and feel more alert.\n";
+         setColor(7);
         Update_Stats(player, 0, +15);
    
     } else if (item == "Gaming Laptop") {
+         setColor(4);
         cout << "You lug the gaming laptop around... it's not very helpful.\n";
+         setColor(7);
         Update_Stats(player, -2, -8);
         RemoveItem(player, item);
 
     } else if (item == "Flashlight") {
+         setColor(6);
         cout << "You switch on the flashlight. The path is clearer.\n";
+         setColor(7);
         Update_Stats(player, 0, +8);
    
     } else if (item == "Battery-Powered Radio") {
+         setColor(6);
         cout << "You tune into emergency broadcasts. The guidance calms you.\n";
         Update_Stats(player, 0, +6);
         RemoveItem(player, item);
+         setColor(7);
         
     } else if (item == "Power Bank") {
+         setColor(6);
         cout << "You top up your phone briefly and feel reassured.\n";
         Update_Stats(player, 0, +6);
         RemoveItem(player, item);
+         setColor(7);
     } else {
+         setColor(4);
         cout << "That item doesn't help here.\n";
         cout << "Can't use it right now.\n";
+         setColor(7);
     }
     //displaying user's health now after using some items to heal himself
     Player_Condition(player.health, player.energy);
@@ -329,19 +356,21 @@ void UseInventoryItem(User& player) {
 
 //Scenario = Earthquake
 string EarthQuake(User& player){
-    setColor(2);
+    setColor(5);
     cout << "\n========================================" << endl;
     cout << "       CIRCUMSTANCE : MAGNITUDE 7.0          " << endl;
     cout << "========================================" << endl;
 
     //Some context
     delay(1);
-    setColor(15);
+    setColor(4);
     cout << "\n[WARNING]: Seismic activity detected nearby!" << endl;
     cout << "You have 15 seconds to grab ONE item nearby:" << endl;
+     setColor(1);
     cout << "1. First Aid Kit" << endl;
     cout << "2. 5L Water Bottle" << endl;
     cout << "3. Gaming Laptop" << endl;
+     setColor(6);
     cout << "What will you choose?: ";
     
     int choice;
@@ -356,20 +385,23 @@ string EarthQuake(User& player){
     else if (choice == 3) {
         Inventory(player, "Gaming Laptop");
     }else{
+         setColor(4);
         cout << "Time's over! You didn't pick anything.\n";
     }
 
     //Question #1 
     delay(2);
+     setColor(1);
     cout << "You are on the 4th floor. The room starts shaking violently." << endl;
     cout << "Bookshelf crashes down." << endl;
     cout << "You can hear the walls cracking and the ceiling fan creaking.\n"<<endl;
     cout << "What is your immediate action?" << endl;
+     setColor(7);
     cout << "1. Run for the elevator." << endl;
     cout << "2. Drop, Cover, and Hold on to wait under a table till the shocks settle down." << endl;
     cout << "3. Run to the balcony." << endl;
     cout << "4. Use an item from your inventory.\n";
-
+    setColor(6);
     cout<<"Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
     
@@ -418,15 +450,17 @@ string EarthQuake(User& player){
 
     //Question #2 
     delay(2);
+    setColor(1);
     cout << "\nThe shaking slows down... but the building isn't still yet.\n";
     cout << "Dust is in the air and small pieces of plaster are falling.\n";
     cout << "You fear an aftershock might hit at any moment.\n\n";
     cout << "What do you do now?\n";
+     setColor(7);
     cout << "1. Stay under the table and wait for 1 more minute.\n";
     cout << "2. Move towards the emergency stairs carefully.\n";
     cout << "3. Call out for help to see if anyone else is nearby.\n";
     cout << "4. Use an item from your inventory.\n";
-
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -471,15 +505,16 @@ string EarthQuake(User& player){
 
     //Question 3
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nYou finally reach the staircase. The main path is blocked by fallen debris.\n";
     cout << "There is a narrow gap you might squeeze through, or you could try finding another route.\n";
     cout << "What is your call?\n";
+     setColor(7);
     cout << "1. Try to clear some debris to make space to move.\n";
     cout << "2. Look for an alternate staircase or fire escape.\n";
     cout << "3. Crawl through the narrow gap carefully.\n";
     cout << "4. Use an item from your inventory.\n";
-
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -521,20 +556,22 @@ switch (choice) {
     
 // Question #4 
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nYou smell smoke. A thin haze fills the corridor near the ceiling....\n";
     cout << "You hear cracking sounds from a room down the hall.\n";
-
+    delay(1);
     //Giving a chance midgame to pick items
     OfferPickup(player, {"Water Bottle", "First Aid Kit"},
             "You spot a half-full water bottle and a small first-aid pouch on a cart.");
-    delay(1);
+    delay(2);
+     setColor(1);
     cout << "How do you proceed?\n";
+     setColor(7);
     cout << "1. Cover your mouth with cloth and crawl low to the exit.\n";
     cout << "2. Use nearby water and try setting off small flames near the door (if any).\n";
     cout << "3. Run past the smoke quickly to save time.\n";
     cout << "4. Use your inventoy.\n";
-
+    setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -577,14 +614,15 @@ switch (choice) {
     }
     //Question #5
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nYou spot someone on the floor holding their leg, calling for help.\n";
     cout << "They are conscious but in pain.\n\n";
     cout << "What do you do?\n";
+     setColor(7);
     cout << "1. Help them stand and guide them to a safer area.\n";
     cout << "2. Provide quick first aid and move on.\n";
     cout << "3. Promise to call rescuers and continue towards the exit.\n";
-
+     setColor(6);
     cout << "Enter your choice (1-3): \n";
     choice = GetTimedInput(20);
 
@@ -618,6 +656,7 @@ switch (choice) {
         Update_Stats(player, -5, -5);
         break;
     }
+     setColor(6);
     return "EarthQuake Simulation Ccmplete!\n";
 }
 
@@ -625,7 +664,7 @@ switch (choice) {
 
 //Scenario: Power Outage
 string Power_Outage(User& player){
-        setColor(2);
+        setColor(5);
         cout<<endl;
         cout << "========================================" << endl;
         cout << "     CIRCUMSTANCE : CITY-WIDE BLACKOUT         " << endl;
@@ -633,13 +672,15 @@ string Power_Outage(User& player){
 
     // Some context
     delay(1);
-    setColor(15);
+     setColor(1);
     cout << "\n[ALERT]: The power has gone out across the city!" << endl;
     cout << "It's night, and the building emergency lights are flickering." << endl;
     cout << "You have 15 seconds to grab ONE item nearby:" << endl;
+     setColor(7);
     cout << "1. Flashlight" << endl;
     cout << "2. Battery-Powered Radio" << endl;
     cout << "3. Power Bank (Phone at 20%)" << endl;
+     setColor(6);
     cout << "What will you choose?: ";
 
     int choice;
@@ -654,19 +695,22 @@ string Power_Outage(User& player){
     } else if (choice == 3) {
         Inventory(player, "Power Bank");
     }else{
+         setColor(4);
         cout << "Time's over! You didn't pick anything\n";
     }
 
     delay(2);
+     setColor(1);
     cout<<".............................................................................\n";
     cout << "\nYou are on the 4th floor. The emergency lights flicker and then turn off" << endl;
     cout << "The hallway is pitch dark and you hear distant sirens outside." << endl;
     cout << "What is your immediate action?" << endl;
+     setColor(7);
     cout << "1. Head for the elevator to reach the lobby." << endl;
     cout << "2. Stay put, use your light, and secure hazards (You unplug all electronics)." << endl;
     cout << "3. Step onto the balcony to assess what's happening outside." << endl;
     cout << "4. Use an item from your inventory. \n";
-
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -710,20 +754,23 @@ string Power_Outage(User& player){
 
     //Question #2
     delay(2);
-    setColor(15);
+     setColor(1);
     cout << "\nYou hear a faint buzzing from your apartment's breaker panel.\n";
     cout << "A neighbor shouts that the outage might be on the grid.\n";
     cout<<".........................\n";
-    
+    delay(2);
+     setColor(7);
     OfferPickup(player, {"Flashlight"},
             "Near the breaker panel, you notice a spare flashlight on a shelf.");
-
+         setColor(1);
+         delay(1);
     cout << "What do you do now?\n";
+     setColor(7);
     cout << "1. Inspect your unit's breaker panel carefully with a flashlight.\n";
     cout << "2. Head to the basement to check a building generator (if any).\n";
     cout << "3. Use your radio/phone to get utility updates and stay put.\n";
     cout << "4. Use an item from your inventory.\n";
-
+    setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -765,15 +812,16 @@ string Power_Outage(User& player){
 
     //Question #3
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nYour refrigerator and freezer are now off.\n";
     cout << "Perishables could spoil if the outage lasts long.\n";
     cout << "How do you manage food safety?\n";
+     setColor(7);
     cout << "1. Keep doors closed; move essentials to a cooler with ice if available.\n";
     cout << "2. Open the fridge repeatedly to check and snack now.\n";
     cout << "3. Cook perishables immediately on a gas stove for light and warmth.\n";
     cout << "4. Use something from the inventory.\n";
-
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -819,14 +867,16 @@ string Power_Outage(User& player){
     OfferPickup(player, {"Power Bank"},
             "In a drawer, you find a spare power bank with some charge left.");
     delay(2);
+     setColor(1);
     cout<<" 45 minutes have passed......\n";
     cout << "\nNight deepens. You need light and a way to charge your phone.\n";
     cout << "What is your approach?\n";
+     setColor(7);
     cout << "1. Use battery lanterns/flashlight and ration batteries.\n";
     cout << "2. Light multiple candles around the apartment for brightness.\n";
     cout << "3. Sit in your idling car inside the garage to charge devices.\n";
     cout << "4. Use something from your inventory.\n";
-
+    setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -867,15 +917,16 @@ string Power_Outage(User& player){
 
     //Question 5
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nYou encounter a neighbor whose medical device (CPAP/oxygen concentrator) needs power.\n";
     cout << "They are conscious but anxious and mildly short of breath.\n";
     cout << "What do you do?\n";
+     setColor(7);
     cout << "1. Help them relocate to a nearby clinic/shelter with backup power.\n";
     cout << "2. Offer your power bank for phone calls and stay with them briefly.\n";
     cout << "3. Promise to inform responders and continue managing your own situation.\n";
     cout << "4. Use an item from your inventory.\n";
-
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -913,24 +964,27 @@ string Power_Outage(User& player){
             Update_Stats(player, -5, -5);
             break;
     }
+     setColor(6);
     return "PowerOutage Completed";
 }
 
 string Fire(User& player) {
-    setColor(9);
+    setColor(5);
     cout << "\n========================================" << endl;
     cout << "       CIRCUMSTANCE : BUILDING ON FIRE         " << endl;
     cout << "========================================" << endl;
 
     //Some context
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\n[ALERT]: You smell smoke coming from outside your apartment.The fire alarm has not been triggered yet. !" << endl;
     cout << "You hear the panicked screams of people" << endl;
     cout << "You have 15 seconds to grab ONE item nearby:" << endl;
+     setColor(7);
     cout << "1. First Aid Kit" << endl;
     cout << "2. Fire Blanket/ Protective Cloth" << endl;
     cout << "3. Water Bottle" << endl;
+     setColor(6);
     cout << "What will you choose?: ";
 
     int choice;
@@ -945,20 +999,23 @@ string Fire(User& player) {
     else if (choice == 3) {
         Inventory(player, "Water Bottle");
     }else{
-        cout << "Time's over! You didn't oick an item within time.\n";
+         setColor(4);
+        cout << "Time's over! You didn't pick an item within time.\n";
     }
 
     //Question #1 
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "Smoke smell increases, but the fire alarm is not ringing" << endl;
     cout << "Some neighbors claim it's “a false alarm”." << endl;
     cout << "Others are evacuating in panic" << endl;
     cout << "What is your immediate action?" << endl;
+     setColor(7);
     cout << "1. Trust your gut and move to evacuate the building." << endl;
     cout << "2. Wait for the confirmation." << endl;
     cout << "3. Investigate the source." << endl;
     cout << "4. Use an item from your inventory.\n";
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1003,17 +1060,21 @@ string Fire(User& player) {
     }
 
     //Question #2 
+    delay(1);
     OfferPickup(player, { "Fire Extnguisher" },
         "You found a fire extinguisher outside your apartment.");
     delay(2);
     setColor(15);
+     setColor(1);
     cout << "\nSmoke thickens rapidly..\n";
     cout << "Heat rises and visibility drops.\n";
     cout << "What do you do now?\n";
+     setColor(7);
     cout << "1. Use the staircase.\n";
     cout << "2. Try the elevator.\n";
     cout << "3. Seal your apartment temporarily.\n";
     cout << "4. Use an item from your inventory.\n";
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1056,14 +1117,16 @@ string Fire(User& player) {
 
     //Question 3
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nThe ceiling creaks.\n";
     cout << "Smoke forms layers — breathable air near the floor..\n";
     cout << "What is your call?\n";
+     setColor(7);
     cout << "1. Crawl low.\n";
     cout << "2. Run for your life.\n";
     cout << "3. Retreat.\n";
     cout << "4. Use an item from your inventory.\n";
+     setColor(6);
     cout << "Enter your choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1102,6 +1165,7 @@ string Fire(User& player) {
 
     // RANDOM EVENT: FLASHOVER
     if (rand() % 100 < 25) {
+         setColor(4);
         cout << "\n[CRITICAL EVENT] Flashover occurs!\n";
         cout << "Extreme heat fills the corridor suddenly.\n";
         Update_Stats(player, -20, -10);
@@ -1109,14 +1173,16 @@ string Fire(User& player) {
 
     // Question #4
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nPanicked residents rush past you.\n";
     cout << "Someone screams that the staircase is blocked!\n";
     cout << "What do you do?\n";
+     setColor(7);
     cout << "1. Follow the crowd.\n";
     cout << "2. Follow emergency exit signs.\n";
     cout << "3. Stop and reassess the situation.\n";
     cout << "4. Use an item from inventory.\n";
+     setColor(6);
     cout << "Enter your choice (1-4)\n";
     choice = GetTimedInput(20);
 
@@ -1152,6 +1218,7 @@ string Fire(User& player) {
 
     // RANDOM EVENT: STAIRCASE COLLAPSE
     if (rand() % 100 < 30) {
+         setColor(4);
         cout << "\n[EVENT] A section of the staircase collapses!\n";
         cout << "You are forced to take a longer route.\n";
         Update_Stats(player, -10, -15);
@@ -1159,14 +1226,16 @@ string Fire(User& player) {
 
     // Question #5
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nSirens are audible outside.\n";
     cout << "Smoke is thick but an exit is visible.\n";
     cout << "Final decision:\n";
+     setColor(7);
     cout << "1. Push through the smoke.\n";
     cout << "2. Wait for rescue.\n";
     cout << "3. Use an alternate emergency exit.\n";
     cout << "4. Use an item from inventory.\n";
+     setColor(6);
     cout << "Enter your choice(1-4);\n";
     choice = GetTimedInput(20);
 
@@ -1199,21 +1268,23 @@ string Fire(User& player) {
         Update_Stats(player, -15, -10);
         break;
     }
-
+     setColor(6);
     return "Fire Scenario Complete";
 }
 
 string Flood(User& player) {
-    setColor(9);
+    setColor(5);
     cout << "\n========================================" << endl;
     cout << "        DISASTER: FLASH FLOOD            " << endl;
     cout << "========================================" << endl;
 
     delay(2);
-    setColor(15);
+    setColor(4);
     cout << "\n[ALERT]: Heavy rain for hours! Streets flooding rapidly!\n";
+     setColor(4);
     cout << "Emergency sirens echo in the distance.\n";
     cout << "You have seconds to grab ONE item:\n";
+     setColor(7);
     cout << "1. Life Jacket\n";
     cout << "2. Laptop\n";
     cout << "3. Hat\n";
@@ -1227,19 +1298,23 @@ string Flood(User& player) {
     }else if (choice == 3) {
         Inventory(player, "Hat");
     }else{
+         setColor(4);
         cout << "Time's Over! You didn't choose anything.\n";
     }
 
     // Question 1
-    delay(2);
+    delay(3);
+     setColor(1);
     cout << "Water reaches your ankles and is rising FAST!" << endl;
     cout << "You look outside, cars are half submerged." << endl;
     cout << "The current is getting stronger.\n" << endl;
     cout << "What do you do?\n";
+     setColor(7);
     cout << "1. Stay indoors on the ground floor and wait\n";
     cout << "2. Move to the roof immediately\n";
     cout << "3. Go outside to assess how bad it is\n";
     cout << "4. Use your inventory.\n";
+     setColor(6);
     cout << "Choice (1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1277,9 +1352,11 @@ string Flood(User& player) {
 
     // RANDOM EVENT 1
     if (rand() % 100 < 35) {
+         setColor(4);
         cout << "\n[SUDDEN SURGE!]\n";
         cout << "A wave of water rushes through the area!\n";
         cout << "You struggle to keep your balance!\n";
+         setColor(7);
         Update_Stats(player, -10, -15);
     }
 
@@ -1287,15 +1364,17 @@ string Flood(User& player) {
     OfferPickup(player, { "Rope" },
         "On your rooftop, you find a rope tied with a wheel hanging as a decor.");
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nThe water level is now at your waist!" << endl;
     cout << "The current is strong and pulling at you." << endl;
     cout << "You can barely stand upright.\n" << endl;
     cout << "What's your next move?\n";
+     setColor(7);
     cout << "1. Try to wade through the water to higher ground\n";
     cout << "2. Grab onto something stable and wait\n";
     cout << "3. Attempt to swim with the current\n";
     cout << "4. Use Inventory\n";
+     setColor(6);
     cout << "Enter Your Choice(1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1344,15 +1423,17 @@ string Flood(User& player) {
 
     // Question 3
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "You hear desperate cries for help nearby!" << endl;
     cout << "Someone is clinging to a car roof, an elderly person!" << endl;
     cout << "The water continues to rise steadily.\n" << endl;
     cout << "What do you do?\n";
+     setColor(7);
     cout << "1. Try to reach them and help\n";
     cout << "2. Throw them something to hold onto\n";
     cout << "3. Shout that you'll get rescue and keep moving\n";
     cout << "4. Use your inventory.\n";
+     setColor(6);
     cout << "Choice(1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1410,6 +1491,7 @@ string Flood(User& player) {
 
     // RANDOM EVENT 2 - Debris
     if (rand() % 100 < 40) {
+         setColor(4);
         cout << "\n[FLOATING DEBRIS!]\n";
         cout << "A large object crashes toward you!\n";
         if (HasItem(player, "Waterproof Backpack")) {
@@ -1420,19 +1502,22 @@ string Flood(User& player) {
             cout << "It strikes your side hard!\n";
             Update_Stats(player, -20, -10);
         }
+         setColor(7);
     }
 
     // Question 4
     delay(2);
-    setColor(15);
+    setColor(1);
     cout << "\nYou spot a rescue boat in the distance!" << endl;
     cout << "It's about 50 meters away, moving slowly." << endl;
     cout << "The water is chest-deep now and very cold.\n" << endl;
     cout << "How do you signal them?\n";
+     setColor(7);
     cout << "1. Swim toward the boat as fast as you can\n";
     cout << "2. Wave your arms and shout loudly\n";
     cout << "3. Stay put and use a bright object to signal\n";
     cout << "4. Use your inventory.\n";
+    setColor(6);
     cout << "Choice(1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1482,15 +1567,18 @@ string Flood(User& player) {
     // Question 5 - FINAL/ENDING QUESTION
     delay(2);
     setColor(15);
+    setColor(1);
     cout << "RESCUE BOAT ARRIVES!" << endl;
     cout << "The rescue boat pulls up beside you!" << endl;
     cout << "Rescuers extend their hands to pull you aboard." << endl;
     cout << "But you notice 3 other people still in the water nearby!\n" << endl;
     cout << "The boat has limited space. What do you do?\n";
+    setColor(7);
     cout << "1. Board immediately - you're exhausted and need help\n";
     cout << "2. Help pull others aboard first, then board\n";
     cout << "3. Give up your spot for someone more vulnerable\n";
     cout << "4. Use your inventory.\n";
+    setColor(6);
     cout << "Choice(1-4): \n";
     choice = GetTimedInput(20);
 
@@ -1535,8 +1623,10 @@ string Flood(User& player) {
 
     // Final flood scenario text
     delay(2);
+    setColor(6);
     cout << "The boat takes you to higher ground." << endl;
     cout << "Emergency services are coordinating evacuations." << endl;
+    setColor(7);
     return "Flood";
 }
 
