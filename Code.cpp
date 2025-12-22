@@ -1585,79 +1585,63 @@ void SaveGameResult(const User& player, const string& disaster) {
 
 
 
+
 void AppendUserNoteAndShowFile() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // clear leftover newline
 
     string input;
-    cout << "Enter the note you want to store in a file: ";
+    cout << "Enter a note to save: ";
     getline(cin, input);
 
-    ofstream myfile;
-    myfile.open("Player Progress.txt", ios::app);
-    myfile << input << "\n";
-    myfile.close();
+    // Append note to file
+    ofstream out("Player Progress.txt", ios::app);
+    out << input << "\n";
+    out.close();
 
-    ifstream myfile2;
-    myfile2.open("Player Progress.txt");
-    string line;
+    // Display file contents
+    ifstream in("Player Progress.txt");
     cout << "\n=== YOUR PROGRESS RECORD ===\n";
-    while(getline(myfile2, line)){
-        cout << line << endl;
+    string line;
+    while (getline(in, line)) {
+        cout << line << "\n";
     }
     cout << "=======================================\n";
-    myfile2.close();
 }
 
-
 //We want to allow user to be able to play multiple times
-string PlayOneRound(User& player, string& disasterOut) {
-    // Reset round state
+
+string PlayOneRound(User& player, string& disaster) {
+    // Reset player stats
     player.health = 100;
     player.energy = 100;
     player.isAlive = true;
-    player.inventory.clear();
-    player.inventory.push_back("Empty");
+    player.inventory = {"Empty"};
 
-    srand(static_cast<unsigned>(time(NULL)));
+    // Pick random scenario
+    srand((unsigned)time(NULL));
     int random_number = rand() % 4 + 1;
 
-    string outcome = "Scenario completed.";
     switch (random_number) {
-        case 1:
-            disasterOut = "EarthQuake";
-            outcome = EarthQuake(player);
-            break;
-        case 2:
-            disasterOut = "Flood";
-            outcome = Flood(player);
-            break;
-        case 3:
-            disasterOut = "Building on Fire";
-            outcome = Fire(player);
-            break;
-        case 4:
-            disasterOut = "Power Outage";
-            outcome = Power_Outage(player);
-            break;
+        case 1: disaster = "EarthQuake";     
+        return EarthQuake(player);
+        break;
+
+        case 2: disaster = "Flood";           
+        return Flood(player);
+        break;
+
+        case 3: disaster = "Building on Fire"; 
+        return Fire(player);
+        break; 
+
+        
+        case 4: disaster = "Power Outage";    
+        return Power_Outage(player);
+        break;
     }
-
-    cout << outcome << endl;
-    if (player.isAlive) {
-        cout << "Congratulations!! You survived!!\n";
-    } else {
-        cout << "\n--- GAME OVER ---\n";
-        cout << "You failed to survive the disaster.\n";
-    }
-    Scoring_System_For_Ending_Display(player);
-
-    SaveGameResult(player, disasterOut);
-    cout << "Game saved to history!\n";
-
-    // Your simple file I/O integration after each round:
-    AppendUserNoteAndShowFile();
-
-    return outcome;
+    return "Scenario completed.";
 }
+
 
 int main() {
     string name,disaster, outcome;
