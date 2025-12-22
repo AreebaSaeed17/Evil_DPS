@@ -1769,8 +1769,8 @@ int main() {
     setColor(7);
    
     cout << "Enter your name: ";
-    cout <<"Your name will act as a password for your progress file.\n";
     cin >> name;
+    cout <<"(Your name will act as a password for your progress file.)\n";
 
     if (!CheckPassword(name)) {
         setColor(4);
@@ -1782,28 +1782,6 @@ int main() {
     cout << "Access granted. Welcome " << name << "!\n";
     setColor(7);
 
-    // Show their previous games
-    ifstream historyFile("game_history.txt");
-    if (historyFile) {
-        setColor(6);
-        cout << "\n=== YOUR PREVIOUS GAMES ===\n";
-        setColor(7);
-        string line;
-        while (getline(historyFile, line)) {
-            if (line.find(name) != string::npos) {
-                // Show this game record
-                cout << line << "\n";
-                for (int i = 0; i < 5; i++) {
-                    getline(historyFile, line);
-                    cout << line << "\n";
-                }
-        }
-    }
-    historyFile.close();
-    cout << "\nPress Enter to start playing...";
-    cin.ignore();
-    cin.get();
-    }
     User player;
     player.name = name;
     player.health = 100;
@@ -1813,21 +1791,38 @@ int main() {
 
     bool playAgain = true;
     while (playAgain) {
-        string disaster;
-        PlayOneRound(player, disaster);
-        
-        SaveGameResult(player, disaster);
-        Player_Condition(player.health, player.energy);
-        Scoring_System_For_Ending_Display(player);
-
-        setColor(5);
-        cout << "\nDo you want to play again? (y/n): ";
-        setColor(7);
-        char ans;
-        cin >> ans;
-        playAgain = (ans == 'y' || ans == 'Y');
-
+    string disaster;
+    PlayOneRound(player, disaster);
+    
+    Player_Condition(player.health, player.energy);
+    Scoring_System_For_Ending_Display(player);
+    SaveGameResult(player, disaster);
+    
+    // Show their history after game
+    setColor(6);
+    cout << "\n=== YOUR GAME HISTORY ===\n";
+    setColor(7);
+    ifstream historyFile("game_history.txt");
+    string line;
+    while (getline(historyFile, line)) {
+        if (line.find(name) != string::npos) {
+            cout << line << "\n";
+            for (int i = 0; i < 5; i++) {
+                getline(historyFile, line);
+                cout << line << "\n";
+            }
+        }
     }
+    historyFile.close();
+    
+    setColor(5);
+    cout << "\nDo you want to play again? (y/n): ";
+    setColor(7);
+    char ans;
+    cin >> ans;
+    playAgain = (ans == 'y' || ans == 'Y');
+    }
+     
     setColor(6);
     cout << "_________Thanks for playing!_________\n";
     return 0;
