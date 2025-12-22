@@ -28,7 +28,7 @@ This is a single player console-based disaster survival simulation developed in 
 5. Each decision affects the user's health and energy.
 6. Use inventory items when necessary to improve survival chances.
 ## Game Mechanics:
-Health represents the physical condition of the player, while energy represents stamina. The inventory can store up to five items which may be used during gameplay.
+Health represents the physical condition of the player, while energy represents stamina. There is decrement in the health and energy of the user based on the decision he makes. The score is determined by the remaining health and energy. The inventory can store up to five items which may be used during gameplay.
 ## The Disaster Scenarios:
 •	Earthquake – Focuses on shelter, evacuation, and aftershock safety.               
 •	Fire – Emphasizes smoke management, evacuation routes, and fire safety.                  
