@@ -7,6 +7,8 @@
 #include<thread>
 #include <iomanip>
 #include <windows.h>
+// sstream library wraps the input line in a stream so we can safely extract the numeric choice
+#include <sstream>
 //using vector for a dynamic array to store inventory items as it is modifiable. 
 //Items can be both added and removed 
 #include<vector>
@@ -256,8 +258,10 @@ void OfferPickup(User& player, const vector<string>& itemsNearPlayer, const stri
 
     // Read the player's choice.
     int chosenIndex;
-    cin.ignore((numeric_limits<streamsize>::max)(), '\n'); // Add this line first
-    cin >> chosenIndex;
+    string input;
+    getline(cin, input);
+    stringstream ss(input);
+    ss >> chosenIndex;
 
     // Validate input: 0 means "skip", out-of-range means "invalid".
     if (chosenIndex <= 0 || chosenIndex > static_cast<int>(itemsNearPlayer.size())) {
