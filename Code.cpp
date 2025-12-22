@@ -1752,15 +1752,16 @@ string PlayOneRound(User& player, string& disaster) {
 }
 
 
+
 int main() {
     string name,disaster, outcome;
     setColor(5);
-    cout<<"_________________________________________________________\n";
+    cout<<"____________________________________________________________________________________\n";
     cout<<"This is a Disaster Simulation meant to put you under pressure for a certain disaster.\n";
     cout<<"You have limited time and need to make life-saving decisions.\n";
     cout<<"You presence of mind and experience can save your life one day.\n";
     cout<<"Your ultimate goal is to survive while keeping the best of your health.\n";
-    cout<<"________________________Good Luck!________________________\n";
+    cout<<"_____________________________________Good Luck!______________________________________\n";
     delay(3);
     setColor(7);
    
@@ -1787,9 +1788,6 @@ int main() {
 
     bool playAgain = true;
     while (playAgain) {
-        User player;
-        player.name = name;
-
         string disaster;
         PlayOneRound(player, disaster);
         setColor(5);
