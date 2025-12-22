@@ -1,6 +1,6 @@
 # Disaster Preparedness Simulator - User Manual
 ## Overview:
-This is a console-based disaster survival simulation developed in C++. The software places the user in realistic emergency scenarios where quick thinking and correct decision-making are required to survive. The user must manage health, energy, and inventory while responding to time-limited choices. The purpose of this project is to prepare users for emergency situations by encouraging quick, efficient, and responsible decision-making under pressure.   
+This is a single player console-based disaster survival simulation developed in C++. The software places the user in realistic emergency scenarios where quick thinking and correct decision-making are required to survive. The user must manage health, energy, and inventory while responding to time-limited choices. The purpose of this project is to prepare users for emergency situations by encouraging quick, efficient, and responsible decision-making under pressure.   
 ## Features:
 1. Multiple disaster scenarios (Earthquake, Fire, Flood, Power Outage)    
 2. Decision-based gameplay with time pressure      
@@ -28,5 +28,13 @@ This is a console-based disaster survival simulation developed in C++. The softw
 5. Each decision affects the user's health and energy.
 6. Use inventory items when necessary to improve survival chances.
 ## Game Mechanics:
+Health represents the physical condition of the player, while energy represents stamina. The inventory can store up to five items which may be used during gameplay.
+## The Disaster Scenarios:
+•	Earthquake – Focuses on shelter, evacuation, and aftershock safety.
+•	Fire – Emphasizes smoke management, evacuation routes, and fire safety.
+•	Flood – Involves movement in water, rescue decisions, and survival priorities.
+•	Power Outage – Requires patience, resource management, and safe decision-making.
+## Ending & Scoring:
+At the end of each game, a final score is calculated based on remaining health and energy and a performance rating is displayed, and the game outcome is saved to a history file. The user can access his progress through this file afterwards.
 
 
