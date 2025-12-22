@@ -12,3 +12,10 @@ Survived: YES
 Final Health: 65
 Final Energy: 71
 ====================
+====================
+Name: Areeba
+Disaster: 
+Survived: YES
+Final Health: 100
+Final Energy: 100
+====================

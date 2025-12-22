@@ -256,6 +256,7 @@ void OfferPickup(User& player, const vector<string>& itemsNearPlayer, const stri
 
     // Read the player's choice.
     int chosenIndex;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Add this line first
     cin >> chosenIndex;
 
     // Validate input: 0 means "skip", out-of-range means "invalid".
@@ -298,7 +299,9 @@ void UseInventoryItem(User& player) {
     cout << "0. Cancel\n";
 
     int pick;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin >> pick;
+   
     if (pick == 0) {
          setColor(6);
         cout << "You decided not to use anything.\n";
@@ -1790,6 +1793,11 @@ int main() {
     while (playAgain) {
         string disaster;
         PlayOneRound(player, disaster);
+        
+        SaveGameResult(player, disaster);
+        Player_Condition(player.health, player.energy);
+        Scoring_System_For_Ending_Display(player);
+
         setColor(5);
         cout << "\nDo you want to play again? (y/n): ";
         setColor(7);
