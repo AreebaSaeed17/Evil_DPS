@@ -23,7 +23,6 @@ void setColor(int color) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
-
 using namespace std;
 
 //Struct for the user details
@@ -40,6 +39,8 @@ struct Item {
     string name;
     int uses;          
 };
+
+
 
                                 //Function Definitions
 void delay(int seconds) {
@@ -242,6 +243,7 @@ cout << "Your inventory: ";
 
 
 //Offering user chances to pick up stuff
+
 //USED AI REFRENCE FOR THIS FUNCTION
 void OfferPickup(User& player, const vector<string>& itemsNearPlayer, const string& descriptionPrompt) {
     // If there is nothing to offer, do nothing and return.
@@ -259,27 +261,42 @@ void OfferPickup(User& player, const vector<string>& itemsNearPlayer, const stri
     // Read the player's choice.
     int chosenIndex;
     string input;
+    
+    // Clear any pending input first
+    if (cin.rdbuf()->in_avail() > 0) {
+        cin.clear();
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+    }
+    
     getline(cin, input);
     stringstream ss(input);
-    ss >> chosenIndex;
+    
+    // Try to extract an integer
+    if (!(ss >> chosenIndex)) {
+        setColor(6);
+        cout << "Invalid input. You decide not to pick up anything.\n";
+        setColor(7);
+        return;
+    }
 
     // Validate input: 0 means "skip", out-of-range means "invalid".
     if (chosenIndex <= 0 || chosenIndex > static_cast<int>(itemsNearPlayer.size())) {
-         setColor(6);
+        setColor(6);
         cout << "You decide not to pick up anything.\n";
+        setColor(7);
         return;
     }
 
     // Convert the 1-based menu choice to a 0-based vector index and add the item.
-    // Your Inventory(...) function already handles the "max 5 items" rule and prints feedback.
     const string& selectedItem = itemsNearPlayer[chosenIndex - 1];
     Inventory(player, selectedItem);
 }
 
 
 //AI HELP FOR THE USING FUNCTION
+//Corrected UseInventoryItem function with proper buffer handling
 void UseInventoryItem(User& player) {
-// Filter out the "Empty" placeholder
+    // Filter out the "Empty" placeholder
     vector<string> usable;
     usable.reserve(player.inventory.size());
     for (const auto& s : player.inventory) {
@@ -287,87 +304,124 @@ void UseInventoryItem(User& player) {
     }
 
     if (usable.empty()) {
-         setColor(4);
+        setColor(4);
         cout << "You have nothing useful to use right now.\n";
+        setColor(7);
         return;
-         setColor(7);
     }
 
     cout << "\n=== Use an Item ===\n";
     ShowInventory(player);
-     setColor(5);
+    setColor(5);
     cout << "Choose an item to use:\n";
     for (size_t i = 0; i < usable.size(); ++i) {
         cout << (i + 1) << ". " << usable[i] << "\n";
     }
     cout << "0. Cancel\n";
+    setColor(7);
 
     int pick;
-    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+    // Clear any pending input before reading
+    if (cin.rdbuf()->in_avail() > 0) {
+        cin.clear();
+        cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+    }
+    
     cin >> pick;
+    
+    // Clear the newline left in buffer after reading integer
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
    
     if (pick == 0) {
-         setColor(6);
+        setColor(6);
         cout << "You decided not to use anything.\n";
+        setColor(7);
         return;
     }
+    
     if (pick < 1 || pick > static_cast<int>(usable.size())) {
-         setColor(14);
+        setColor(14);
         cout << "Invalid choice.\n";
+        setColor(7);
         return;
     }
 
     const string& item = usable[pick - 1];
 
     if (item == "First Aid Kit") {
-         setColor(2);
+        setColor(2);
         cout << "You open the First Aid Kit and treat minor wounds.\n";
-         setColor(7);
+        setColor(7);
         Update_Stats(player, +15, -5);
         RemoveItem(player, item);
-    } else if (item == "Water Bottle") {
-         setColor(2);
+    } 
+    else if (item == "Water Bottle") {
+        setColor(2);
         cout << "You drink water and feel more alert.\n";
-         setColor(7);
+        setColor(7);
         Update_Stats(player, 0, +15);
-   
-    } else if (item == "Gaming Laptop") {
-         setColor(4);
+    } 
+    else if (item == "Gaming Laptop") {
+        setColor(4);
         cout << "You lug the gaming laptop around... it's not very helpful.\n";
-         setColor(7);
+        setColor(7);
         Update_Stats(player, -2, -8);
         RemoveItem(player, item);
-
-    } else if (item == "Flashlight") {
-         setColor(6);
+    } 
+    else if (item == "Flashlight") {
+        setColor(6);
         cout << "You switch on the flashlight. The path is clearer.\n";
-         setColor(7);
+        setColor(7);
         Update_Stats(player, 0, +8);
-   
-    } else if (item == "Battery-Powered Radio") {
-         setColor(6);
+    } 
+    else if (item == "Battery-Powered Radio") {
+        setColor(6);
         cout << "You tune into emergency broadcasts. The guidance calms you.\n";
+        setColor(7);
         Update_Stats(player, 0, +6);
         RemoveItem(player, item);
-         setColor(7);
-        
-    } else if (item == "Power Bank") {
-         setColor(6);
+    } 
+    else if (item == "Power Bank") {
+        setColor(6);
         cout << "You top up your phone briefly and feel reassured.\n";
+        setColor(7);
         Update_Stats(player, 0, +6);
         RemoveItem(player, item);
-         setColor(7);
-    } else {
-         setColor(4);
+    }
+    else if (item == "Fire Blanket") {
+        setColor(2);
+        cout << "You wrap the fire blanket around yourself for protection.\n";
+        setColor(7);
+        Update_Stats(player, +5, +5);
+    }
+    else if (item == "Life Jacket") {
+        setColor(2);
+        cout << "You put on the life jacket. You feel safer in water.\n";
+        setColor(7);
+        Update_Stats(player, 0, +10);
+    }
+    else if (item == "Rope") {
+        setColor(6);
+        cout << "You secure the rope around yourself. It might help later.\n";
+        setColor(7);
+        Update_Stats(player, 0, +5);
+    }
+    else if (item == "Hat") {
+        setColor(6);
+        cout << "You put on the hat. Not very useful right now.\n";
+        setColor(7);
+        Update_Stats(player, 0, -2);
+    }
+    else {
+        setColor(4);
         cout << "That item doesn't help here.\n";
         cout << "Can't use it right now.\n";
-         setColor(7);
+        setColor(7);
     }
+    
     //displaying user's health now after using some items to heal himself
     Player_Condition(player.health, player.energy);
 }
-
-
 
 
 //Scenario = Earthquake
