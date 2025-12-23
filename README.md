@@ -1,6 +1,6 @@
 # Disaster Preparedness Simulator - User Manual
 ## Overview:
-This is a console-based disaster survival simulation developed in C++. The software places the user in realistic emergency scenarios where quick thinking and correct decision-making are required to survive. The user must manage health, energy, and inventory while responding to time-limited choices. The purpose of this project is to prepare users for emergency situations by encouraging quick, efficient, and responsible decision-making under pressure.   
+This is a single player console-based disaster survival simulation developed in C++. The software places the user in realistic emergency scenarios where quick thinking and correct decision-making are required to survive. The user must manage health, energy, and inventory while responding to time-limited choices. The purpose of this project is to prepare users for emergency situations by encouraging quick, efficient, and responsible decision-making under pressure.   
 ## Features:
 1. Multiple disaster scenarios (Earthquake, Fire, Flood, Power Outage)    
 2. Decision-based gameplay with time pressure      
@@ -18,8 +18,9 @@ This is a console-based disaster survival simulation developed in C++. The softw
 1. Use a C++ compatible IDE (Visual Studio) or compiler.
 2. In the IDE, simply just debug the program and run it.
 3. In a compiler, run the following command.
-   #### g++ main.cpp-o Evil_DPS
+   #### g++ main.cpp-o Code
 4. This will make a executable file (Evil_DPS.exe). Run the executable file.
+5. A console screen will appear in which the program is being run.
 ## How to use the simulation:
 1. Run the program on the IDE.
 2. An introductory message would be displayed after which user would be prompted to enter their name which will be used as a password for progress tracking.
@@ -28,5 +29,13 @@ This is a console-based disaster survival simulation developed in C++. The softw
 5. Each decision affects the user's health and energy.
 6. Use inventory items when necessary to improve survival chances.
 ## Game Mechanics:
+Health represents the physical condition of the player, while energy represents stamina. There is decrement in the health and energy of the user based on the decision he makes. The score is determined by the remaining health and energy. The inventory can store up to five items which may be used during gameplay.
+## The Disaster Scenarios:
+•	Earthquake – Focuses on shelter, evacuation, and aftershock safety.               
+•	Fire – Emphasizes smoke management, evacuation routes, and fire safety.                  
+•	Flood – Involves movement in water, rescue decisions, and survival priorities.                      
+•	Power Outage – Requires patience, resource management, and safe decision-making.          
+## Ending & Scoring:
+At the end of each game, a final score is calculated based on remaining health and energy and a performance rating is displayed, and the game outcome is saved to a history file. The user can access his progress through this file afterwards.
 
 

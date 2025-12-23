@@ -7,6 +7,8 @@
 #include<thread>
 #include <iomanip>
 #include <windows.h>
+// sstream library wraps the input line in a stream so we can safely extract the numeric choice
+#include <sstream>
 //using vector for a dynamic array to store inventory items as it is modifiable. 
 //Items can be both added and removed 
 #include<vector>
@@ -53,7 +55,7 @@ int GetTimedInput(int seconds) {
     // Clean any leftover characters (e.g., a newline from previous cin >>)
     if (std::cin.rdbuf()->in_avail() > 0) {
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
     }
 
     // Draw once at start
@@ -120,7 +122,7 @@ int GetTimedInput(int seconds) {
             // Clean any pending stdin
             if (std::cin.rdbuf()->in_avail() > 0) {
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
             }
             return -1;
         }
@@ -256,8 +258,10 @@ void OfferPickup(User& player, const vector<string>& itemsNearPlayer, const stri
 
     // Read the player's choice.
     int chosenIndex;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Add this line first
-    cin >> chosenIndex;
+    string input;
+    getline(cin, input);
+    stringstream ss(input);
+    ss >> chosenIndex;
 
     // Validate input: 0 means "skip", out-of-range means "invalid".
     if (chosenIndex <= 0 || chosenIndex > static_cast<int>(itemsNearPlayer.size())) {
@@ -299,7 +303,7 @@ void UseInventoryItem(User& player) {
     cout << "0. Cancel\n";
 
     int pick;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore((numeric_limits<streamsize>::max)(), '\n');
     cin >> pick;
    
     if (pick == 0) {
@@ -1019,7 +1023,7 @@ string Fire(User& player) {
     delay(2);
     setColor(1);
     cout << "Smoke smell increases, but the fire alarm is not ringing" << endl;
-    cout << "Some neighbors claim it's “a false alarm”." << endl;
+    cout << "Some neighbors claim it's \“a false alarm\”." << endl;
     cout << "Others are evacuating in panic" << endl;
     cout << "What is your immediate action?" << endl;
      setColor(7);
