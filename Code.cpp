@@ -1785,7 +1785,7 @@ int main() {
     setColor(7);
 
     cout << "Enter your name: ";
-    cin >> name;
+    getline(cin, name);
 
     setColor(2);
     cout << "Welcome " << name << "!\n";
