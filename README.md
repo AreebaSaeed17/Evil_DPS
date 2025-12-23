@@ -18,8 +18,9 @@ This is a single player console-based disaster survival simulation developed in 
 1. Use a C++ compatible IDE (Visual Studio) or compiler.
 2. In the IDE, simply just debug the program and run it.
 3. In a compiler, run the following command.
-   #### g++ main.cpp-o Evil_DPS
+   #### g++ main.cpp-o Code
 4. This will make a executable file (Evil_DPS.exe). Run the executable file.
+5. A console screen will appear in which the program is being run.
 ## How to use the simulation:
 1. Run the program on the IDE.
 2. An introductory message would be displayed after which user would be prompted to enter their name which will be used as a password for progress tracking.
