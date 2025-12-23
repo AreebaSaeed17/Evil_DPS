@@ -26,3 +26,24 @@ Survived: YES
 Final Health: 50
 Final Energy: 90
 ====================
+====================
+Name: heeba
+Disaster: Power Outage
+Survived: YES
+Final Health: 97
+Final Energy: 34
+====================
+====================
+Name: heeba
+Disaster: Power Outage
+Survived: YES
+Final Health: 95
+Final Energy: 28
+====================
+====================
+Name: heeba
+Disaster: Building on Fire
+Survived: YES
+Final Health: 12
+Final Energy: 0
+====================
