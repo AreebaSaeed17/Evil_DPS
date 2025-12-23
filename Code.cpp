@@ -1023,7 +1023,7 @@ string Fire(User& player) {
     delay(2);
     setColor(1);
     cout << "Smoke smell increases, but the fire alarm is not ringing" << endl;
-    cout << "Some neighbors claim it's \“a false alarm\”." << endl;
+    cout << "Some neighbors claim it's “a false alarm." << endl;
     cout << "Others are evacuating in panic" << endl;
     cout << "What is your immediate action?" << endl;
      setColor(7);
