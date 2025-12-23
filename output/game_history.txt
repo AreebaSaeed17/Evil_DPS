@@ -47,3 +47,10 @@ Survived: YES
 Final Health: 12
 Final Energy: 0
 ====================
+====================
+Name: Urooj
+Disaster: Power Outage
+Survived: YES
+Final Health: 64
+Final Energy: 47
+====================
