@@ -1778,7 +1778,7 @@ int main() {
     cout<<"____________________________________________________________________________________\n";
     cout<<"This is a Disaster Simulation meant to put you under pressure for a certain disaster.\n";
     cout<<"You have limited time and need to make life-saving decisions.\n";
-    cout<<"You presence of mind and experience can save your life one day.\n";
+    cout<<"Your presence of mind and experience can save your life one day.\n";
     cout<<"Your ultimate goal is to survive while keeping the best of your health.\n";
     cout<<"_____________________________________Good Luck!______________________________________\n";
     delay(3);
